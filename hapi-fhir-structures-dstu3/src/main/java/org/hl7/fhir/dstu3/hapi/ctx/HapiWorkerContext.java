@@ -287,8 +287,11 @@ public final class HapiWorkerContext extends I18nBase implements IWorkerContext 
       return null;
     }
 
+    ConceptDefinitionComponent definition = null;
     IssueSeverity severity = null;
-    if (result.getSeverity() != null) {
+    if (result.getSeverity() == null) {
+      definition = new ConceptDefinitionComponent().setCode(result.getCode());
+    } else {
       severity = IssueSeverity.fromCode(result.getSeverityCode());
     }
     ConceptDefinitionComponent definition = new ConceptDefinitionComponent().setCode(result.getCode());
