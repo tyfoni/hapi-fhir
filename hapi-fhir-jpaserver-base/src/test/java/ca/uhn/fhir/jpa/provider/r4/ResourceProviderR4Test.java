@@ -1096,7 +1096,7 @@ public class ResourceProviderR4Test extends BaseResourceProviderR4Test {
 		// Search for wrong type
 		Bundle returnedBundle = myClient.search()
 			.forResource(Observation.class)
-			.where(Observation.ENCOUNTER.hasId(patientReference.getReference()))
+			.where(Observation.ENCOUNTER.hasId(patientReference.getReferenceElement().toVersionless()))
 			.returnBundle(Bundle.class)
 			.execute();
 		assertEquals(0, returnedBundle.getEntry().size());
@@ -1104,7 +1104,7 @@ public class ResourceProviderR4Test extends BaseResourceProviderR4Test {
 		// Search for right type
 		returnedBundle = myClient.search()
 			.forResource(Media.class)
-			.where(Media.SUBJECT.hasId(patientReference.getReference()))
+			.where(Media.SUBJECT.hasId(patientReference.getReferenceElement().toVersionless()))
 			.returnBundle(Bundle.class)
 			.execute();
 		assertEquals(mediaId, returnedBundle.getEntryFirstRep().getResource().getIdElement());
