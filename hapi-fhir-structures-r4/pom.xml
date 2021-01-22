@@ -145,7 +145,7 @@
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi-ooxml</artifactId>
-			<version>4.0.1</version>
+			<version>5.0.0</version>
 			<optional>true</optional>
 		</dependency>
 		<dependency>
@@ -245,16 +245,6 @@
 			<artifactId>jaxb-api</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<!--<dependency>-->
-			<!--<groupId>com.sun.xml.bind</groupId>-->
-			<!--<artifactId>jaxb-core</artifactId>-->
-			<!--<scope>test</scope>-->
-		<!--</dependency>-->
-		<!--<dependency>-->
-			<!--<groupId>com.sun.xml.bind</groupId>-->
-			<!--<artifactId>jaxb-impl</artifactId>-->
-			<!--<scope>test</scope>-->
-		<!--</dependency>-->
 		<dependency>
 			<groupId>org.glassfish.jaxb</groupId>
 			<artifactId>jaxb-runtime</artifactId>
