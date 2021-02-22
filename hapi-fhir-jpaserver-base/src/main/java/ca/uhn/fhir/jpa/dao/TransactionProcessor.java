@@ -62,9 +62,11 @@ public class TransactionProcessor extends BaseTransactionProcessor {
 	@Override
 	protected void flushSession(Map<IIdType, DaoMethodOutcome> theIdToPersistedOutcome) {
 		try {
-			SessionImpl session = (SessionImpl) myEntityManager.unwrap(Session.class);
-			int insertionCount = session.getActionQueue().numberOfInsertions();
-			int updateCount = session.getActionQueue().numberOfUpdates();
+//			SessionImpl session = (SessionImpl) myEntityManager.unwrap(Session.class);
+//			int insertionCount = session.getActionQueue().numberOfInsertions();
+//			int updateCount = session.getActionQueue().numberOfUpdates();
+			int insertionCount = -1;
+			int updateCount = -1;
 
 			StopWatch sw = new StopWatch();
 			myEntityManager.flush();
