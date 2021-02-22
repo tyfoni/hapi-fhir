@@ -68,7 +68,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.context.annotation.Primary;
 import org.springframework.core.annotation.AnnotationAwareOrderComparator;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -187,7 +186,7 @@ public class FhirAutoConfiguration {
 			private EntityManagerFactory emf;
 
 			@Bean
-			@Primary
+			@ConditionalOnMissingBean
 			public PlatformTransactionManager hapiTransactionManager() {
 				return new JpaTransactionManager(emf);
 			}
