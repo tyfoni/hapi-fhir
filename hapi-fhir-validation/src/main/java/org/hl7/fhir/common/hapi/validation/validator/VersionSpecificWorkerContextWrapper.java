@@ -266,7 +266,7 @@ public class VersionSpecificWorkerContextWrapper extends I18nBase implements IWo
 		IValidationSupport.ValueSetExpansionOutcome expanded = myValidationSupportContext.getRootValidationSupport().expandValueSet(myValidationSupportContext, null, convertedSource);
 
 		org.hl7.fhir.r5.model.ValueSet convertedResult = null;
-		if (expanded.getValueSet() != null) {
+		if (expanded != null && expanded.getValueSet() != null) {
 			try {
 				convertedResult = (ValueSet) myModelConverter.toCanonical(expanded.getValueSet());
 			} catch (FHIRException e) {
@@ -274,7 +274,7 @@ public class VersionSpecificWorkerContextWrapper extends I18nBase implements IWo
 			}
 		}
 
-		String error = expanded.getError();
+		String error = expanded != null ? expanded.getError() : "expandValueSet() returned null";
 		ValueSetExpander.TerminologyServiceErrorClass result = null;
 
 		return new ValueSetExpander.ValueSetExpansionOutcome(convertedResult, error, result);
