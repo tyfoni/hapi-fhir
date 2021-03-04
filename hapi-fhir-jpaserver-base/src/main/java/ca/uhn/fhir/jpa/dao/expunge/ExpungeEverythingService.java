@@ -63,6 +63,7 @@ import ca.uhn.fhir.jpa.model.entity.ResourceTag;
 import ca.uhn.fhir.jpa.model.entity.SearchParamPresent;
 import ca.uhn.fhir.jpa.model.entity.TagDefinition;
 import ca.uhn.fhir.jpa.util.JpaInterceptorBroadcaster;
+import ca.uhn.fhir.jpa.util.MemoryCacheService;
 import ca.uhn.fhir.rest.api.server.RequestDetails;
 import ca.uhn.fhir.rest.server.servlet.ServletRequestDetails;
 import ca.uhn.fhir.util.StopWatch;
@@ -72,6 +73,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.support.TransactionSynchronization;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.annotation.Nullable;
@@ -94,6 +97,8 @@ public class ExpungeEverythingService {
 	private PlatformTransactionManager myPlatformTransactionManager;
 	@Autowired
 	protected IInterceptorBroadcaster myInterceptorBroadcaster;
+	@Autowired
+	private MemoryCacheService myMemoryCacheService;
 
 	private TransactionTemplate myTxTemplate;
 
@@ -167,6 +172,13 @@ public class ExpungeEverythingService {
 		myTxTemplate.execute(t -> {
 			counter.addAndGet(doExpungeEverythingQuery("DELETE from " + Search.class.getSimpleName() + " d"));
 			return null;
+		});
+
+		TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization(){
+			@Override
+			public void afterCommit() {
+				myMemoryCacheService.invalidateAllCaches();
+			}
 		});
 
 		ourLog.info("COMPLETED GLOBAL $expunge - Deleted {} rows", counter.get());
